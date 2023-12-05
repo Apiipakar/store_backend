@@ -1,0 +1,92 @@
+<div
+  id="add_category"
+  class="w-full h-screen hidden flex-col z-10 absolute justify-center items-center ease-in duration-150"
+>
+  <div class="layer bg-black opacity-20 w-full h-full absolute"></div>
+  <!-- form holder -->
+  <div
+    class="form_holder w-11/12 md:w-1/4 bg-white z-20 shadow py-2 px-3 rounded"
+  >
+    <!-- title and hide form -->
+    <div
+      class="title_and_cancelBtn flex items-center justify-between border-b border-slate-100 py-1"
+    >
+      <h1 class="font-medium">Add Category</h1>
+      <ion-icon
+        name="close-outline"
+        id="close_category"
+        class="cursor-pointer text-[18px] p-3 hover:bg-slate-100 hover:rounded-full ease-in duration-150"
+      ></ion-icon>
+    </div>
+    <!-- the form -->
+    <form id="add_category_form" class="my-5" enctype="multipart/form-data">
+      <div class="form_controll_category w-full mb-3">
+        <input
+          type="text"
+          class="w-full outline-none border px-3 py-1 border-slate-300 rounded"
+          placeholder="Enter category name"
+          name="category_name"
+          id="catName"
+          required
+        />
+      </div>
+      <div class="form_controll_category w-full mb-3">
+        <label for="image" class="text-[14px] font-medium mb-5"
+          >Select icon :</label
+        >
+        <input
+          type="file"
+          class="w-full outline-none rounded text-[14px] my-3"
+          placeholder="Enter category name"
+          name="image"
+          id="catImage"
+          required
+        />
+        <small class="text-[12px] font-medium text-slate-500 my-5 text-center"
+          ><span class="text-red-500">Note</span> : image should be png format
+          to match with System Ui</small
+        >
+      </div>
+      <input
+        type="submit"
+        class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150"
+      />
+    </form>
+  </div>
+</div>
+
+<script>
+  let add_category_form = document.getElementById("add_category_form");
+  let catName = document.getElementById("catName");
+  let catImage = document.getElementById("catImage");
+
+  add_category_form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(add_category_form);
+
+    // post to categoty request
+    fetch("http://localhost:3000/addCategory", {
+      method: "POST",
+      body: fd,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        document.getElementById("add_category").classList.remove("flex");
+        document.getElementById("add_category").classList.add("hidden");
+
+        document.getElementById("show_alert").classList.remove("hidden");
+        document.getElementById("show_alert").classList.add("flex");
+        document.getElementById("alertText").innerText = data.message;
+        setTimeout(() => {
+          document.getElementById("show_alert").classList.remove("flex");
+          document.getElementById("show_alert").classList.add("hidden");
+          location.reload();
+        }, 2000);
+      })
+      .catch((err) => console.log(err));
+  });
+</script>

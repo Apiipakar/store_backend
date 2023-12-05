@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+
+/* Targeting the scrollbar handle or thumb */
+::-webkit-scrollbar-thumb {
+  background-color: gainsboro; /* Set the color of the scrollbar thumb */
+  border-radius: 3px; /* Set the border radius of the scrollbar thumb */
+}
+
+/* Targeting the scrollbar track on hover */
+::-webkit-scrollbar-track:hover {
+  background-color: white; /* Set the color of the scrollbar track on hover */
+}
+
+/* Targeting the scrollbar handle or thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: grey; /* Set the color of the scrollbar thumb on hover */
+}
+
+/* Targeting the scrollbar corner */
+::-webkit-scrollbar-corner {
+  background-color: #f1f1f1; /* Set the color of the scrollbar corner */
+}

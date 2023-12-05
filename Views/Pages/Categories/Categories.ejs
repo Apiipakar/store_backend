@@ -1,0 +1,139 @@
+<%- include('../../Partials/Headers') %>
+<body class="dashboard w-full flex overflow-hidden relative">
+  <!-- desktop and large screens aside -->
+  <%- include('../../partials/Desktop_aside') %>
+  <!-- main section of page -->
+  <main class="w-full overflow-hidden">
+    <%- include('../../partials/MainHeader') %>
+
+    <!-- main section -->
+    <section
+      class="Dashboard_section w-[98%] m-auto mt-2 overflow-auto h-screen"
+    >
+      <!-- top Title bar -->
+      <div class="titleBar flex items-center gap-2 my-5">
+        <ion-icon name="home" class="text-[13px] text-gray-500"></ion-icon>
+        <h1 class="text-[13px] text-gray-500">/</h1>
+        <h1 class="text-[13px] text-gray-500" id="locationUrl"></h1>
+      </div>
+
+      <!-- category list -->
+      <div class="add_and_search flex items-center justify-between">
+        <button
+          id="showAddCategory"
+          class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150"
+        >
+          Add new
+        </button>
+        <!-- search category -->
+        <% if (categoryList.length > 0){ %>
+        <div class="search relative w-[400px]">
+          <input
+            type="text"
+            class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
+            placeholder="Search Category"
+          />
+          <ion-icon
+            name="search-outline"
+            class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
+          ></ion-icon>
+        </div>
+        <% } %>
+      </div>
+
+      <!-- Data table -->
+      <div class="w-full mt-5 overflow-x-auto">
+        <% if(categoryList.length == 0){ %>
+        <div
+          class="no_data w-full h-max flex items-center justify-center flex-col gap-5"
+        >
+          <img src="/Assets/noData.png" alt="no data image" class="w-[300px]" />
+          <p class="text-[12px] text-slate-500 flex items-center gap-1">
+            <ion-icon
+              name="alert-circle-outline"
+              class="text-[15px]"
+            ></ion-icon>
+            There is no data availabe now, press add new button to create one
+          </p>
+        </div>
+        <% } else{%>
+        <table class="w-full shadow">
+          <thead class="bg-slate-100 font-medium">
+            <tr>
+              <td class="py-3 px-2 text-[14px]">ID</td>
+              <td class="py-3 px-2 text-[14px]">icon</td>
+              <td class="py-3 px-2 text-[14px]">Category name</td>
+              <td class="py-3 px-2 text-[14px]">Edit</td>
+              <td class="py-3 px-2 text-[14px]">Delete</td>
+            </tr>
+          </thead>
+          <tbody class="">
+            <% categoryList.forEach(c => { %>
+            <tr class="border-b border-slate-200 hover:bg-slate-50">
+              <td class="py-3 px-2 text-[14px]"><%= c.id %></td>
+              <td class="py-3 px-2 text-[14px]">
+                <img
+                  src="<%= c.icon %>  %>"
+                  alt="icon-image"
+                  class="w-[20px] h-[20px] border border-gray-300 shadow"
+                />
+              </td>
+              <td class="py-3 px-2 text-[14px]"><%= c.catergory_name %></td>
+              <td class="py-3 px-2 text-[14px]">
+                <a href="/deleteCategory/<%=c.id%>">
+                  <ion-icon
+                    name="create-outline"
+                    class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
+                  ></ion-icon>
+                </a>
+              </td>
+              <td class="py-3 px-2 text-[14px]">
+                <ion-icon
+                  id="deleteCategory"
+                  name="trash-outline"
+                  class="text-[18px] text-red-700 cursor-pointer"
+                ></ion-icon>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <% } %>
+      </div>
+      <!-- category list end -->
+    </section>
+  </main>
+  <%- include('./components/AddCategory') %>
+  <!-- show alert -->
+  <%- include('../../partials/Alert') %>
+</body>
+
+<!-- ionIcons link -->
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+
+<script>
+  let locationUrl = document.getElementById("locationUrl");
+  let path = window.location.pathname;
+  console.log(locationUrl);
+  locationUrl.innerText = path.replace("/", "");
+
+  // show add category
+  let add_category = document.getElementById("add_category");
+  document.getElementById("showAddCategory").addEventListener("click", () => {
+    add_category.classList.remove("hidden");
+    add_category.classList.add("flex");
+  });
+
+  // close category
+  document.getElementById("close_category").addEventListener("click", () => {
+    add_category.classList.remove("flex");
+    add_category.classList.add("hidden");
+  });
+</script>

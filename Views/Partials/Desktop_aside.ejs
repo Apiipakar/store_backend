@@ -1,0 +1,145 @@
+<aside
+  id="aside_desktop"
+  class="hidden lg:block sm:w-[25%] lg:w-[15%] bg-white shadow h-screen p-3"
+>
+  <!-- system info -->
+  <div class="brandLogo">
+    <div class="info leading-[20px] w-full text-center">
+      <h1 class="lg:text-[25px] font-bold uppercase">Store Sm</h1>
+
+      <small class="text-center text-[10px] font-bold"> v1.0.0 </small>
+    </div>
+  </div>
+
+  <div class="title px-2 mt-5">
+    <h1 class="font-medium text-gray-500">Menu</h1>
+    <div class="line border-b border-gray-200 mt-2"></div>
+  </div>
+
+  <!-- menuList -->
+  <ul class="my-5">
+    <!-- dashboard -->
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 py-2 w-full">
+        <ion-icon name="stats-chart-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="DashboardPage"
+          href="/Dashboard"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          Dashboard
+        </a>
+      </div>
+    </li>
+    <!-- Categories -->
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="list-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="CategoryPage"
+          href="/Categories"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          Categories
+        </a>
+      </div>
+    </li>
+
+    <!-- Products -->
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="bag-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="productPage"
+          href="/Products"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          Products
+        </a>
+      </div>
+    </li>
+
+    <!-- Orders -->
+
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="cash-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="orderPage"
+          href="/Orders"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          Orders
+        </a>
+      </div>
+    </li>
+
+    <!-- users -->
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="person-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="userPage"
+          href="/users"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          users
+        </a>
+      </div>
+    </li>
+
+    <!-- Settings -->
+    <li class="flex items-center justify-between px-2 text-gray-500">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="settings-outline" class="text-[19px]"></ion-icon>
+        <a
+          id="settingPage"
+          href="/settings"
+          class="font-medium text-[15px] hover:text-slate-800"
+        >
+          Settings
+        </a>
+      </div>
+    </li>
+
+    <!-- Logout -->
+    <li class="flex items-center justify-between px-2">
+      <div class="link flex items-center gap-3 w-full py-2">
+        <ion-icon name="log-out-outline" class="text-[19px]"></ion-icon>
+        <a href="/logout" class="font-medium text-[15px] hover:text-slate-800">
+          Logout
+        </a>
+      </div>
+    </li>
+  </ul>
+</aside>
+
+<script>
+  //intialize link doms
+  let DashboardPage = document.getElementById("DashboardPage");
+  let settingPage = document.getElementById("settingPage");
+  let CategoryPage = document.getElementById("CategoryPage");
+  let orderPage = document.getElementById("orderPage");
+  let userPage = document.getElementById("userPage");
+  let productPage = document.getElementById("productPage");
+
+  let links = [
+    DashboardPage,
+    settingPage,
+    CategoryPage,
+    orderPage,
+    userPage,
+    productPage,
+  ];
+
+  //handle active page
+  let pathname = window.location.pathname;
+  links.forEach((l) => {
+    if (l.pathname === pathname) {
+      // l.style.color = "red";
+      // console.log(l.parentElement);
+      l.parentElement.style.color = "black";
+      l.parentElement.style.backgroundColor = "#fafafa";
+    }
+  });
+</script>

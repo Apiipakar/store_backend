@@ -1,0 +1,64 @@
+<div
+  class="total_section my-2 sm:flex sm:flex-wrap gap-[1%] justify-between w-full"
+>
+  <!-- ordar card -->
+  <div class="total_card md:w-[24%] bg-white shadow">
+    <h1 class="w-full text-[15px] capitalize ms-2 text-gray-500">Orders</h1>
+    <h1 class="font-medium text-[25px] text-center">
+      <%= ordersCount.count %>
+    </h1>
+    <div class="actions flex items-center justify-between mx-2">
+      <a href="/orders" class="hover:underline text-[12px] capitalize"
+        >see lists</a
+      >
+    </div>
+  </div>
+
+  <!-- products card -->
+  <div class="total_card md:w-[24%] bg-white shadow">
+    <h1 class="w-full text-[15px] capitalize ms-2 text-gray-500">products</h1>
+    <h1 class="font-medium text-[25px] text-center"><%= prodCount.count %></h1>
+    <div class="actions flex items-center justify-between mx-2">
+      <a href="/products" class="hover:underline text-[12px] capitalize"
+        >see lists</a
+      >
+      <a href="/Products" class="hover:underline text-[12px] capitalize"
+        >add product</a
+      >
+    </div>
+  </div>
+
+  <!-- categories card -->
+  <div class="total_card md:w-[24%] bg-white shadow">
+    <h1 class="w-full text-[15px] capitalize ms-2 text-gray-500">categories</h1>
+    <h1 class="font-medium text-[25px] text-center">
+      <%= categoryCount.count %>
+    </h1>
+    <div class="actions flex items-center justify-between mx-2">
+      <a href="/Categories" class="hover:underline text-[12px] capitalize"
+        >see lists</a
+      >
+      <a href="/Categories" class="hover:underline text-[12px] capitalize"
+        >add category</a
+      >
+    </div>
+  </div>
+
+  <!-- user card -->
+  <div class="total_card md:w-[24%] bg-white shadow">
+    <h1 class="w-full text-[15px] capitalize ms-2 text-gray-500">users</h1>
+    <h1 class="font-medium text-[25px] text-center">
+      <%= ordersCount.count %>
+    </h1>
+    <div class="actions flex items-center justify-between mx-2">
+      <a href="/users" class="hover:underline text-[12px] capitalize"
+        >see lists</a
+      >
+      <a href="/users" class="hover:underline text-[12px] capitalize"
+        >Manage users</a
+      >
+    </div>
+  </div>
+</div>
+
+<script></script>

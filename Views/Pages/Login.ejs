@@ -1,0 +1,172 @@
+<%- include('../Partials/Headers') %>
+<body class="flex items-center justify-center h-screen flex-col gap-5">
+  <!-- show invalid credantials -->
+  <div
+    id="alert"
+    class="w-11/12 sm:w-2/3 lg:w-1/4 p-5 rounded-[5px] text-white text-center hidden"
+  >
+    <h1></h1>
+  </div>
+  <!-- show succuss credantils -->
+  <div
+    class="SuccessCredantials w-11/12 sm:w-2/3 lg:w-1/4 bg-green-500 text-center p-5 rounded-[5px] text-white capitalize gap-1 hidden items-center justify-center"
+  >
+    <ion-icon name="checkmark-circle-outline" class="text-[22px]"></ion-icon>
+    <h1>successfull logged in</h1>
+  </div>
+  <form
+    id="LoginForm"
+    class="shadow-md border-[1px] border-gray-100 w-11/12 sm:w-2/3 lg:w-1/4 p-5 flex flex-col hover:shadow-linear rounded-[5px]"
+  >
+    <h1 class="text-[25px] font-bold mb-[20px]">Admin Login</h1>
+
+    <div class="form_controller">
+      <!-- Email -->
+      <input
+        type="text"
+        name="email"
+        id="Email"
+        placeholder="Enter you email"
+        class="py-3 px-2 border-[1px] border-gray-200 focus:border-gray-400 outline-none w-full"
+      />
+      <span id="showError" class="text-red-500 capitalize text-[12px]"></span>
+    </div>
+
+    <!-- password container -->
+    <div
+      class="password_container relative flex items-center overflow-hidden mt-3"
+    >
+      <div class="form_controller w-full">
+        <!-- password -->
+        <input
+          type="password"
+          name="Password"
+          id="Password"
+          placeholder="Enter you Password"
+          class="py-3 px-2 border-[1px] border-gray-200 focus:border-gray-400 outline-none w-full"
+        />
+        <span id="showError" class="text-red-500 capitalize text-[12px]"></span>
+        <ion-icon
+          id="showPassword"
+          name="eye-off-outline"
+          class="absolute right-0 cursor-pointer top-0 p-5 hover:bg-gray-100"
+        ></ion-icon>
+      </div>
+    </div>
+
+    <!-- submit button -->
+    <input
+      type="submit"
+      class="py-2 px-3 border-[1px] border-gray-200 focus:border-gray-200 outline-none cursor-pointer bg-gray-100 w-max hover:text-black text-gray-500 hover:bg-gray-200 font-medium text-[14px] mt-5"
+    />
+  </form>
+
+  <!-- ionIcons link -->
+  <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+  ></script>
+  <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+  ></script>
+</body>
+
+<script>
+  // initialize dom.
+  let LoginForm = document.getElementById("LoginForm");
+  let LoginEmail = document.getElementById("Email");
+  let LoginPassword = document.getElementById("Password");
+  let emailErrorText = document.querySelector(".emailErrorText");
+  let passwordErrorText = document.querySelector(".passwordErrorText");
+  let showPassword = document.getElementById("showPassword");
+  //   ---------------------FORM VALIDATION------------------
+
+  // show error
+  const showError = (element, message) => {
+    //add red border
+    element.classList.add("border-red-300");
+
+    let parentElement = element.parentElement;
+    const span = parentElement.querySelector("span");
+    span.textContent = message;
+    setTimeout(() => {
+      span.textContent = "";
+      element.classList.remove("border-red-300");
+    }, 2000);
+    // console.log(span);
+  };
+  // show success
+  const showSuccess = (element) => {
+    let parentElement = element.parentElement;
+    const span = parentElement.querySelector("span");
+    span.textContent = "";
+    // console.log(span);
+  };
+
+  // check input
+  const checkInput = (elements) => {
+    elements.forEach((element) => {
+      if (element.value === "") {
+        showError(element, "input required");
+      } else {
+        showSuccess(element);
+      }
+    });
+  };
+
+  // show password text
+  showPassword.addEventListener("click", () => {
+    console.log(LoginPassword.type);
+    LoginPassword.type === "password"
+      ? (LoginPassword.type = "text")
+      : (LoginPassword.type = "password");
+    setTimeout(() => {
+      LoginPassword.type = "password";
+    }, 5000);
+  });
+  // loginForm handle
+  LoginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    checkInput([LoginEmail, LoginPassword]);
+    let body = { email: LoginEmail.value, password: LoginPassword.value };
+    console.log(body);
+    try {
+      let request = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      let response = request;
+      let data = await response.json();
+      console.log(data);
+      if (response.status == 200) {
+        let alert = document.getElementById("alert");
+        alert.classList.add("bg-green-500");
+        alert.classList.remove("hidden");
+        let text = alert.querySelector("h1");
+        text.textContent = data.message;
+        setTimeout(() => {
+          alert.classList.add("hidden");
+          alert.classList.remove("bg-green-500");
+          window.location = "http://localhost:3000/Dashboard";
+        }, 2000);
+      } else {
+        let alert = document.getElementById("alert");
+        alert.classList.add("bg-red-500");
+        alert.classList.remove("hidden");
+        let text = alert.querySelector("h1");
+        text.textContent = data.message;
+        setTimeout(() => {
+          alert.classList.add("hidden");
+          alert.classList.remove("bg-red-500");
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>

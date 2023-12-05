@@ -1,0 +1,38 @@
+<%- include('../../Partials/Headers') %>
+<body class="dashboard w-full flex overflow-hidden">
+  <!-- desktop and large screens aside -->
+  <%- include('../../partials/Desktop_aside') %>
+  <!-- main section of page -->
+  <main class="w-full overflow-hidden">
+    <%- include('../../partials/MainHeader') %>
+
+    <!-- main section -->
+    <section
+      class="Dashboard_section w-[98%] m-auto mt-2 overflow-auto h-screen"
+    >
+      <!-- top Title bar -->
+      <div class="titleBar flex items-center gap-2 my-5">
+        <ion-icon name="home" class="text-[13px] text-gray-500"></ion-icon>
+        <h1 class="text-[13px] text-gray-500">/</h1>
+        <h1 class="text-[13px] text-gray-500" id="locationUrl"></h1>
+      </div>
+    </section>
+  </main>
+</body>
+
+<!-- ionIcons link -->
+<script
+  type="module"
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+></script>
+<script
+  nomodule
+  src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+></script>
+
+<script>
+  let locationUrl = document.getElementById("locationUrl");
+  let path = window.location.pathname;
+  console.log(locationUrl);
+  locationUrl.innerText = path.replace("/", "");
+</script>
