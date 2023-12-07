@@ -27,16 +27,29 @@
         </button>
         <!-- search category -->
         <% if (categoryList.length > 0){ %>
-        <div class="search relative w-[400px]">
-          <input
-            type="text"
-            class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
-            placeholder="Search Category"
-          />
-          <ion-icon
-            name="search-outline"
-            class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
-          ></ion-icon>
+
+        <div class="tools flex items-center gap-5">
+          <!-- print button -->
+          <div class="print flex items-center gap-1">
+            <ion-icon name="print" class="text-[20px]"></ion-icon>
+            <small
+              class="font-medium hover:text-gray-500 cursor-pointer"
+              onclick="printTable()"
+              >Print</small
+            >
+          </div>
+          <!-- search input -->
+          <div class="search relative md:w-[400px]">
+            <input
+              type="text"
+              class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
+              placeholder="Search Category"
+            />
+            <ion-icon
+              name="search-outline"
+              class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
+            ></ion-icon>
+          </div>
         </div>
         <% } %>
       </div>
@@ -57,7 +70,7 @@
           </p>
         </div>
         <% } else{%>
-        <table class="w-full shadow">
+        <table id="allData" class="w-full shadow">
           <thead class="bg-slate-100 font-medium">
             <tr>
               <td class="py-3 px-2 text-[14px]">ID</td>
@@ -80,9 +93,10 @@
               </td>
               <td class="py-3 px-2 text-[14px]"><%= c.catergory_name %></td>
               <td class="py-3 px-2 text-[14px]">
-                <a href="/deleteCategory/<%=c.id%>">
+                <a href="#">
                   <ion-icon
                     name="create-outline"
+                    onclick="updateCategory(`<%=c.id%>`,`<%=c.catergory_name%>`)"
                     class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
                   ></ion-icon>
                 </a>
@@ -91,6 +105,7 @@
                 <ion-icon
                   id="deleteCategory"
                   name="trash-outline"
+                  onclick="deleteConfirm(`<%=c.id%>`,`<%=c.catergory_name%>`)"
                   class="text-[18px] text-red-700 cursor-pointer"
                 ></ion-icon>
               </td>
@@ -103,9 +118,12 @@
       <!-- category list end -->
     </section>
   </main>
-  <%- include('./components/AddCategory') %>
+  <!-- Add Category -->
+  <%- include('./components/AddCategory') %> <%-
+  include('./components/UpdateCategory') %>
   <!-- show alert -->
-  <%- include('../../partials/Alert') %>
+  <%- include('../../partials/Alert') %> <%-
+  include('../../partials/DeleteAlert') %>
 </body>
 
 <!-- ionIcons link -->
@@ -136,4 +154,123 @@
     add_category.classList.remove("flex");
     add_category.classList.add("hidden");
   });
+
+  // handle delete
+  function deleteConfirm(id, name) {
+    document.getElementById("deleteAlert").classList.remove("hidden");
+    document.getElementById("deleteAlert").classList.add("flex");
+    // console.log(id);
+    document.getElementById(
+      "deleteText"
+    ).innerText = `Are you sure you want to delete ${name}`;
+    document.getElementById("YesBtn").addEventListener("click", async () => {
+      console.log("yes clicked by id of " + id);
+      // window.location.href = `/deleteCategory/${id}`;
+      let realId = parseInt(id);
+      console.log(typeof realId);
+      try {
+        let deletePost = await fetch(
+          "http://localhost:3000/deleteCategory" + realId,
+          {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        let response = await deletePost;
+        console.log(response);
+        let data = await response.json();
+        // console.log(data);
+        if (response.status == 200) {
+          // remove delete alert
+          document.getElementById("deleteAlert").classList.add("hidden");
+          document.getElementById("deleteAlert").classList.remove("flex");
+          //show success alert
+          document.getElementById("show_alert").classList.add("flex");
+          document.getElementById("show_alert").classList.remove("hidden");
+          document.getElementById("alertText").innerText = data.message;
+
+          setTimeout(() => {
+            document.getElementById("show_alert").classList.remove("flex");
+            document.getElementById("show_alert").classList.add("hidden");
+            window.location.reload();
+          }, 2000);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  // handle update
+  function updateCategory(id, name) {
+    // console.log(typeof id);
+    let newId = parseInt(id);
+    let catInput = document.getElementById("updateCat");
+    // catInput.value = name;
+    catInput.value = name;
+    // console.log(catInput);
+    document.getElementById("update_category").classList.remove("hidden");
+    document.getElementById("update_category").classList.add("flex");
+
+    // hide update category form
+    document
+      .getElementById("close_Upd_category")
+      .addEventListener("click", () => {
+        document.getElementById("update_category").classList.add("hidden");
+        document.getElementById("update_category").classList.remove("flex");
+      });
+
+    //form handle
+    let updateCategory = document.getElementById("update_category_form");
+
+    updateCategory.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fdata = new FormData(updateCategory);
+      try {
+        let request = await fetch(
+          "http://localhost:3000/updateCategory" + newId,
+          {
+            method: "PUT",
+            body: fdata,
+          }
+        );
+        let response = await request;
+
+        let data = await response.json();
+
+        if (response.status == 200) {
+          // remove update form
+          document.getElementById("update_category").classList.add("hidden");
+          document.getElementById("update_category").classList.remove("flex");
+          //show success alert
+          document.getElementById("show_alert").classList.add("flex");
+          document.getElementById("show_alert").classList.remove("hidden");
+          document.getElementById("alertText").innerText = data.message;
+
+          setTimeout(() => {
+            document.getElementById("show_alert").classList.remove("flex");
+            document.getElementById("show_alert").classList.add("hidden");
+            window.location.reload();
+          }, 2000);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+
+  // handle print
+  function printTable() {
+    var table = document.getElementById("allData");
+    var newWin = window.open("", "Print-Window");
+    newWin.document.open();
+    newWin.document.write(
+      "<html><head><style>table {border-collapse: collapse; width: 100%;} th, td {border: 1px solid #dddddd; text-align: left; padding: 8px;} th {background-color: #f2f2f2;}</style></head><body>"
+    );
+    newWin.document.write("<h2>Table Data</h2>");
+    newWin.document.write(table.outerHTML);
+    newWin.document.write("</body></html>");
+    newWin.document.close();
+    newWin.print();
+  }
 </script>

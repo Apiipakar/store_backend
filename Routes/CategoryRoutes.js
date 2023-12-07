@@ -18,9 +18,6 @@ router.get("/Categories", userAuthenication, Data.categoryList, (req, res) => {
 router.post("/addCategory", upload.single("image"), (req, res) => {
   let category_name = req.body.category_name;
   let icon = req.file.filename;
-  console.log(icon);
-
-  console.log(req.body);
 
   let sql = "INSERT INTO catergories (catergory_name,icon) VALUES(?,?)";
   db.query(sql, [category_name, icon], (err, result) => {
@@ -33,12 +30,28 @@ router.post("/addCategory", upload.single("image"), (req, res) => {
   });
 });
 
-//delet category
+//delete category
 router.delete("/deleteCategory:id", (req, res) => {
   let id = req.params.id;
-  let sql = "delet from catergory where id = ?";
+
+  let sql = "delete from catergories where id = ?";
   db.query(sql, [id], (err, result) => {
     if (err) throw err;
+    res.status(200).send({ message: "Category Deleted Successfull" });
+  });
+});
+
+// update category
+router.put("/updateCategory:id", upload.single("image"), (req, res) => {
+  let id = req.params.id;
+  let category_name = req.body.category_name;
+  let icon = req.file.filename;
+  // console.log(id, category_name, icon);
+  let sql =
+    "UPDATE catergories SET catergory_name = ?, icon = ? WHERE id = " + id + "";
+  db.query(sql, [category_name, icon], (err, result) => {
+    if (err) throw err;
+    res.status(200).send({ message: "Category Updated Successfully" });
   });
 });
 module.exports = router;

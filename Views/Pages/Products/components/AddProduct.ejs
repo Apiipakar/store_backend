@@ -1,0 +1,128 @@
+<div
+  id="add_product"
+  class="w-full h-screen flex flex-col z-10 absolute justify-center items-center ease-in duration-150"
+>
+  <div class="layer bg-black opacity-20 w-full h-full absolute"></div>
+  <!-- form holder -->
+  <div
+    class="form_holder w-11/12 md:w-1/2 bg-white z-20 shadow py-2 px-3 rounded"
+  >
+    <!-- title and hide form -->
+    <div
+      class="title_and_cancelBtn flex items-center justify-between border-b border-slate-100 py-1"
+    >
+      <h1 class="font-medium">Add Product</h1>
+      <ion-icon
+        name="close-outline"
+        id="close_product"
+        class="cursor-pointer text-[18px] p-3 hover:bg-slate-100 hover:rounded-full ease-in duration-150"
+      ></ion-icon>
+    </div>
+    <!-- the form -->
+    <form id="add_category_form" class="my-5" enctype="multipart/form-data">
+      <!-- row_one -->
+      <div class="row_one flex gap-5 my-5">
+        <!-- column one -->
+        <div class="column_one md:w-1/2">
+          <div class="form_controll_category w-full mb-5">
+            <input
+              type="text"
+              class="w-full outline-none border px-3 py-1 border-slate-300 rounded"
+              placeholder="product name"
+              name="category_name"
+              id="catName"
+              required
+            />
+          </div>
+          <div class="form_controll_category w-full mb-3">
+            <input
+              type="text"
+              class="w-full outline-none border px-3 py-1 border-slate-300 rounded"
+              placeholder="Price"
+              name="price"
+              id="catName"
+              required
+            />
+          </div>
+          <!-- category id -->
+          <label for="category_id" class="text-[14px] font-medium text-gray-500"
+            >Select Category</label
+          >
+          <select
+            name="category_id"
+            class="w-full outline-none border py-1 border-slate-300 rounded mb-5"
+          >
+            <option value="">value</option>
+            <option value="">value</option>
+            <option value="">value</option>
+          </select>
+
+          <!-- product type -->
+          <label
+            for="category_id"
+            class="text-[14px] font-medium text-gray-500 mt-5"
+            >Select Product Type</label
+          >
+          <select
+            name="category_id"
+            class="w-full outline-none border py-1 border-slate-300 rounded"
+          >
+            <option value="">value</option>
+            <option value="">value</option>
+            <option value="">value</option>
+          </select>
+        </div>
+        <!-- column two -->
+        <div class="column_two md:w-1/2">
+          <textarea
+            name="description"
+            class="w-full h-[100px] outline-none border py-1 px-2 text-[14px] border-slate-300 rounded"
+            placeholder="Enter Product Description"
+          ></textarea>
+        </div>
+      </div>
+      <div class="row_Two w-full">
+        <input
+          type="submit"
+          class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150"
+        />
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let add_category_form = document.getElementById("add_category_form");
+  let catName = document.getElementById("catName");
+  let catImage = document.getElementById("catImage");
+
+  add_category_form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(add_category_form);
+
+    // post to categoty request
+    fetch("http://localhost:3000/addCategory", {
+      method: "POST",
+      body: fd,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        document.getElementById("add_category").classList.remove("flex");
+        document.getElementById("add_category").classList.add("hidden");
+
+        document.getElementById("show_alert").classList.remove("hidden");
+        document.getElementById("show_alert").classList.add("flex");
+        document.getElementById("alertText").innerText = data.message;
+        setTimeout(() => {
+          document.getElementById("show_alert").classList.remove("flex");
+          document.getElementById("show_alert").classList.add("hidden");
+          location.reload();
+        }, 2000);
+      })
+      .catch((err) => console.log(err));
+  });
+</script>
