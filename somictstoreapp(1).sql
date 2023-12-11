@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2023 at 10:05 AM
+-- Generation Time: Dec 11, 2023 at 09:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -63,9 +63,16 @@ CREATE TABLE `cart` (
 
 CREATE TABLE `catergories` (
   `id` int(255) NOT NULL,
-  `catergory_name` int(255) NOT NULL,
+  `catergory_name` varchar(255) NOT NULL,
   `icon` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `catergories`
+--
+
+INSERT INTO `catergories` (`id`, `catergory_name`, `icon`) VALUES
+(1, 'mobile', 'image-1701764463161.png');
 
 -- --------------------------------------------------------
 
@@ -78,6 +85,18 @@ CREATE TABLE `comments` (
   `user_id` int(11) NOT NULL,
   `Product_id` int(11) NOT NULL,
   `comment` varchar(10000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `seen` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -103,13 +122,20 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `Product_name` varchar(90) NOT NULL,
   `Description` varchar(5000) NOT NULL,
+  `category_id` int(255) NOT NULL,
   `price` int(11) NOT NULL,
   `cover_Image` varchar(500) NOT NULL,
-  `image_two` varchar(500) DEFAULT NULL,
+  `image_two` varchar(500) NOT NULL,
   `image_three` varchar(500) DEFAULT NULL,
-  `image_four` varchar(500) DEFAULT NULL,
   `ProductType` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `Product_name`, `Description`, `category_id`, `price`, `cover_Image`, `image_two`, `image_three`, `ProductType`) VALUES
+(2, 'ipad', 'this is ipad 5 mini', 1, 1000, 'CoverImage-1702277700156.jpg', 'imageTwo-1702277700158.jpg', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -121,6 +147,15 @@ CREATE TABLE `product_types` (
   `id` int(11) NOT NULL,
   `type_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_types`
+--
+
+INSERT INTO `product_types` (`id`, `type_name`) VALUES
+(1, 'popular products'),
+(2, 'Featured Products'),
+(3, 'Latest Products');
 
 -- --------------------------------------------------------
 
@@ -172,6 +207,12 @@ ALTER TABLE `comments`
   ADD KEY `fk_product` (`Product_id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -184,7 +225,8 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_product_type` (`ProductType`);
+  ADD KEY `fk_product_type` (`ProductType`),
+  ADD KEY `fk_category` (`category_id`);
 
 --
 -- Indexes for table `product_types`
@@ -219,12 +261,18 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `catergories`
 --
 ALTER TABLE `catergories`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -237,13 +285,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `product_types`
 --
 ALTER TABLE `product_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -280,6 +328,7 @@ ALTER TABLE `orders`
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
+  ADD CONSTRAINT `fk_category` FOREIGN KEY (`category_id`) REFERENCES `catergories` (`id`),
   ADD CONSTRAINT `fk_product_type` FOREIGN KEY (`ProductType`) REFERENCES `product_types` (`id`) ON DELETE NO ACTION;
 COMMIT;
 
