@@ -44,12 +44,22 @@
             <input
               type="text"
               class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
-              placeholder="Search Category"
+              placeholder="Search Products.."
             />
             <ion-icon
               name="search-outline"
               class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
             ></ion-icon>
+          </div>
+          <!-- delete all products  -->
+          <div class="delete_all_btn">
+            <button
+              id="delete_all_category"
+              class="flex items-center gap-2 border border-red-500 px-2 py-1 text-red-500 rounded hover:bg-red-500 ease duration-300 hover:text-white"
+            >
+              <small>Delete All</small>
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
           </div>
         </div>
         <% } %>
@@ -122,10 +132,10 @@
         </table>
         <% } %>
       </div>
-      <!-- category list end -->
+      <!-- products list end -->
     </section>
   </main>
-  <!-- Add Category -->
+  <!-- Add product -->
   <%- include('./components/AddProduct') %> <%-
   include('./components/UpdateProduct') %>
   <!-- show alert -->

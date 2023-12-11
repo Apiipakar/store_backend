@@ -24,10 +24,12 @@ const productList = (req, res, next) => {
 
 // get List of orders
 const orderList = (req, res, next) => {
-  let orderSql = "SELECT * FROM orders";
+  let orderSql =
+    "SELECT orders.id,users.id as userId,full_name,username,email,phone_number,userProfile,products.id as productId,Product_name,catergory_name,price,cover_Image,time FROM orders join users on orders.user_id = users.id join products on orders.Product_id = products.id join catergories on products.category_id = catergories.id";
   db.query(orderSql, (err, result) => {
     if (err) throw err;
     res.locals.orderList = result;
+    console.log(res.locals.orderList);
     next();
   });
 };

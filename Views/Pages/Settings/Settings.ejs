@@ -16,6 +16,37 @@
         <h1 class="text-[13px] text-gray-500">/</h1>
         <h1 class="text-[13px] text-gray-500" id="locationUrl"></h1>
       </div>
+      <div class="admin_user w-full h-max">
+        <div
+          class="Admin_information flex flex-col gap-3 border-b border-slate-100 py-10"
+        >
+          <h1
+            class="lg:text-[30px] font-medium capitalize border-b border-slate-100"
+          >
+            Admin information
+          </h1>
+          <h5 class="text-gray-500">FullName : <%= User.full_name %></h5>
+          <h5 class="text-gray-500">Username : <%= User.username %></h5>
+          <h5 class="text-gray-500">Email : <%= User.email %></h5>
+          <h5 class="text-gray-500">Password : <%= User.password %></h5>
+        </div>
+        <!-- buttons -->
+        <div class="buttons_for_admin flex gap-5 my-5">
+          <div
+            class="actions_btns flex gap-1 items-center text-red-500 font-medium border rounded border-red-500 px-3 py-1 hover:bg-red-500 hover:text-white cursor-pointer"
+          >
+            <small>Delete Admin</small>
+            <ion-icon name="trash-outline" class="text-[17px]"></ion-icon>
+          </div>
+          <div
+            class="actions_btns flex gap-1 items-center text-green-600 font-medium border rounded border-green-600 px-3 py-1 hover:bg-green-600 hover:text-white cursor-pointer"
+          >
+            <small>Create Admin</small>
+            <ion-icon name="create-outline" class="text-[17px]"></ion-icon>
+          </div>
+        </div>
+        <!-- form create admin -->
+      </div>
     </section>
   </main>
 </body>

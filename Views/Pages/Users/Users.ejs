@@ -16,6 +16,58 @@
         <h1 class="text-[13px] text-gray-500">/</h1>
         <h1 class="text-[13px] text-gray-500" id="locationUrl"></h1>
       </div>
+      <% if(userList.length == 0){ %>
+      <div
+        class="no_user_registered w-full h-max justify-center items-center flex flex-col"
+      >
+        <img src="/Assets/no_user.png" alt="" />
+        <h1 class="text-[12px] text-gray-500">No user registered yet</h1>
+      </div>
+      <% } else{ %>
+
+      <table id="allData" class="w-full shadow">
+        <thead class="bg-slate-100 font-medium capitalize">
+          <tr>
+            <td class="py-3 px-2 text-[14px]">ID</td>
+            <td class="py-3 px-2 text-[14px]">profile</td>
+            <td class="py-3 px-2 text-[14px]">fullname</td>
+            <td class="py-3 px-2 text-[14px]">username</td>
+            <td class="py-3 px-2 text-[14px]">email</td>
+            <td class="py-3 px-2 text-[14px]">phone</td>
+            <td class="py-3 px-2 text-[14px]">passwrod</td>
+            <td class="py-3 px-2 text-[14px]">block</td>
+          </tr>
+        </thead>
+        <tbody class="capitalize">
+          <% userList.forEach(c => { %>
+          <tr class="border-b border-slate-200 hover:bg-slate-50">
+            <td class="py-3 px-2 text-[14px]"><%= c.id %></td>
+            <td class="py-3 px-2 text-[14px]">
+              <img
+                src="<%= c.userProfile %>  %>"
+                alt="icon-image"
+                class="w-[20px] h-[20px] border border-gray-300 shadow"
+              />
+            </td>
+            <td class="py-3 px-2 text-[14px]"><%= c.full_name %></td>
+            <td class="py-3 px-2 text-[14px]">$<%= c.username %></td>
+            <td class="py-3 px-2 text-[14px]"><%= c.email %></td>
+            <td class="py-3 px-2 text-[14px]"><%= c.phone_number %></td>
+            <td class="py-3 px-2 text-[14px]"><%= c.phone_number %></td>
+            <td class="py-3 px-2 text-[14px]">
+              <a href="#">
+                <ion-icon
+                  name="lock-close-outline"
+                  onclick="block(`<%=c.id%>`,`<%=c.full_name%>`)"
+                  class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
+                ></ion-icon>
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } %>
     </section>
   </main>
 </body>
