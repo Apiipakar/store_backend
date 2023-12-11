@@ -1,6 +1,6 @@
 <div
   id="add_product"
-  class="w-full h-screen flex flex-col z-10 absolute justify-center items-center ease-in duration-150"
+  class="w-full h-screen hidden flex-col z-10 absolute justify-center items-center ease-in duration-150"
 >
   <div class="layer bg-black opacity-20 w-full h-full absolute"></div>
   <!-- form holder -->
@@ -19,9 +19,9 @@
       ></ion-icon>
     </div>
     <!-- the form -->
-    <form id="add_category_form" class="my-5" enctype="multipart/form-data">
+    <form id="add_product_form" class="my-5" enctype="multipart/form-data">
       <!-- row_one -->
-      <div class="row_one flex gap-5 my-5">
+      <div class="row_one flex flex-col sm:flex-row gap-5 my-5">
         <!-- column one -->
         <div class="column_one md:w-1/2">
           <div class="form_controll_category w-full mb-5">
@@ -29,8 +29,8 @@
               type="text"
               class="w-full outline-none border px-3 py-1 border-slate-300 rounded"
               placeholder="product name"
-              name="category_name"
-              id="catName"
+              name="product_name"
+              id="product_name"
               required
             />
           </div>
@@ -40,69 +40,115 @@
               class="w-full outline-none border px-3 py-1 border-slate-300 rounded"
               placeholder="Price"
               name="price"
-              id="catName"
+              id="product_price"
               required
             />
           </div>
           <!-- category id -->
+          <% if(categoryList.length !== 0){ %>
+
           <label for="category_id" class="text-[14px] font-medium text-gray-500"
             >Select Category</label
-          >
-          <select
+          ><select
             name="category_id"
             class="w-full outline-none border py-1 border-slate-300 rounded mb-5"
           >
-            <option value="">value</option>
-            <option value="">value</option>
-            <option value="">value</option>
+            <% categoryList.forEach(c=>{ %>
+            <option value="<%= c.id %>"><%=c.catergory_name%></option>
+            <% }) %>
           </select>
+          <% } else{%>
+
+          <h1>there is no category available plase make one</h1>
+          <% } %>
 
           <!-- product type -->
-          <label
-            for="category_id"
-            class="text-[14px] font-medium text-gray-500 mt-5"
+          <% if(proTypeList.length !== 0){ %>
+
+          <label for="category_id" class="text-[14px] font-medium text-gray-500"
             >Select Product Type</label
+          ><select
+            name="ProdType_id"
+            class="w-full outline-none border py-1 border-slate-300 rounded mb-5"
           >
-          <select
-            name="category_id"
-            class="w-full outline-none border py-1 border-slate-300 rounded"
-          >
-            <option value="">value</option>
-            <option value="">value</option>
-            <option value="">value</option>
+            <% proTypeList.forEach(c=>{ %>
+            <option value="<%= c.id %>"><%=c.type_name%></option>
+            <% }) %>
           </select>
+          <% } else{%>
+
+          <h1>there is no Product type available available plase make one</h1>
+          <% } %>
+          <input
+            type="submit"
+            class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150 hidden md:block mt-5"
+          />
         </div>
         <!-- column two -->
         <div class="column_two md:w-1/2">
           <textarea
             name="description"
-            class="w-full h-[100px] outline-none border py-1 px-2 text-[14px] border-slate-300 rounded"
+            class="w-full h-[120px] outline-none border py-1 px-2 text-[14px] border-slate-300 rounded"
             placeholder="Enter Product Description"
+            required
           ></textarea>
+          <!-- images list -->
+          <div class="images_list">
+            <!-- cover image -->
+            <div class="image_group flex flex-col">
+              <label for="coverImage" class="text-[14px]">Cover image:</label>
+              <input
+                type="file"
+                accept="image"
+                required
+                class="text-[14px]"
+                name="CoverImage"
+              />
+            </div>
+            <h1 class="text-gray-500 mt-3">Additional images</h1>
+            <hr />
+            <!-- imageOne -->
+            <div class="image_group flex flex-col mt-3">
+              <label for="imageTwo" class="text-[14px]">Images Two</label>
+              <input
+                type="file"
+                accept="image"
+                class="text-[14px]"
+                name="imageTwo"
+                required
+              />
+            </div>
+            <!-- imageTwo -->
+            <div class="image_group flex flex-col">
+              <label for="coverImage" class="text-[14px]">image Three</label>
+              <input
+                type="file"
+                accept="image"
+                class="text-[14px]"
+                name="imageThree"
+              />
+              <small class="text-gray-500 mt-2"
+                ><span class="font-bold text-red-500">Note :</span> Third image
+                is not necessary</small
+              >
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row_Two w-full">
-        <input
-          type="submit"
-          class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150"
-        />
       </div>
     </form>
   </div>
 </div>
 
 <script>
-  let add_category_form = document.getElementById("add_category_form");
-  let catName = document.getElementById("catName");
-  let catImage = document.getElementById("catImage");
+  let add_product_form = document.getElementById("add_product_form");
 
-  add_category_form.addEventListener("submit", async (e) => {
+  add_product_form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const fd = new FormData(add_category_form);
+    const fd = new FormData(add_product_form);
 
-    // post to categoty request
-    fetch("http://localhost:3000/addCategory", {
+    // post to product request
+    fetch("http://localhost:3000/addProduct", {
       method: "POST",
       body: fd,
     })
@@ -111,8 +157,8 @@
       })
       .then((data) => {
         console.log(data);
-        document.getElementById("add_category").classList.remove("flex");
-        document.getElementById("add_category").classList.add("hidden");
+        document.getElementById("add_product").classList.remove("flex");
+        document.getElementById("add_product").classList.add("hidden");
 
         document.getElementById("show_alert").classList.remove("hidden");
         document.getElementById("show_alert").classList.add("flex");

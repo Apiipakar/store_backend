@@ -17,15 +17,16 @@
         <h1 class="text-[13px] text-gray-500" id="locationUrl"></h1>
       </div>
 
-      <!-- category list -->
+      <!-- Product list -->
       <div class="add_and_search flex items-center justify-between">
         <button
-          id="showAddCategory"
+          id="showAddProduct"
           class="px-3 py-1 border border-slate-300 hover:bg-slate-800 hover:text-white rounded-[3px] cursor-pointer ease-in duration-150"
         >
           Add new
         </button>
-        <!-- search category -->
+        <!-- search Product -->
+
         <% if (productList.length > 0){ %>
 
         <div class="tools flex items-center gap-5">
@@ -75,7 +76,10 @@
             <tr>
               <td class="py-3 px-2 text-[14px]">ID</td>
               <td class="py-3 px-2 text-[14px]">icon</td>
-              <td class="py-3 px-2 text-[14px]">Category name</td>
+              <td class="py-3 px-2 text-[14px]">Product name</td>
+              <td class="py-3 px-2 text-[14px]">Price</td>
+              <td class="py-3 px-2 text-[14px]">Category</td>
+              <td class="py-3 px-2 text-[14px]">Type</td>
               <td class="py-3 px-2 text-[14px]">Edit</td>
               <td class="py-3 px-2 text-[14px]">Delete</td>
             </tr>
@@ -86,17 +90,20 @@
               <td class="py-3 px-2 text-[14px]"><%= c.id %></td>
               <td class="py-3 px-2 text-[14px]">
                 <img
-                  src="<%= c.icon %>  %>"
+                  src="<%= c.cover_Image %>  %>"
                   alt="icon-image"
                   class="w-[20px] h-[20px] border border-gray-300 shadow"
                 />
               </td>
+              <td class="py-3 px-2 text-[14px]"><%= c.Product_name %></td>
+              <td class="py-3 px-2 text-[14px]">$<%= c.price %></td>
               <td class="py-3 px-2 text-[14px]"><%= c.catergory_name %></td>
+              <td class="py-3 px-2 text-[14px]"><%= c.type_name %></td>
               <td class="py-3 px-2 text-[14px]">
                 <a href="#">
                   <ion-icon
                     name="create-outline"
-                    onclick="updateCategory(`<%=c.id%>`,`<%=c.catergory_name%>`)"
+                    onclick="updateProduct(`<%=c.id%>`,`<%=c.Product_name%>`,`<%=c.price%>`,`<%=c.Description%>`)"
                     class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
                   ></ion-icon>
                 </a>
@@ -105,7 +112,7 @@
                 <ion-icon
                   id="deleteCategory"
                   name="trash-outline"
-                  onclick="deleteConfirm(`<%=c.id%>`,`<%=c.catergory_name%>`)"
+                  onclick="deleteConfirm(`<%=c.id%>`,`<%=c.Product_name%>`)"
                   class="text-[18px] text-red-700 cursor-pointer"
                 ></ion-icon>
               </td>
@@ -142,17 +149,17 @@
   console.log(locationUrl);
   locationUrl.innerText = path.replace("/", "");
 
-  // show add category
-  let add_category = document.getElementById("add_category");
-  document.getElementById("showAddCategory").addEventListener("click", () => {
-    add_category.classList.remove("hidden");
-    add_category.classList.add("flex");
+  // show add product
+  let add_product = document.getElementById("add_product");
+  document.getElementById("showAddProduct").addEventListener("click", () => {
+    add_product.classList.remove("hidden");
+    add_product.classList.add("flex");
   });
 
-  // close category
-  document.getElementById("close_category").addEventListener("click", () => {
-    add_category.classList.remove("flex");
-    add_category.classList.add("hidden");
+  // close Product
+  document.getElementById("close_product").addEventListener("click", () => {
+    add_product.classList.remove("flex");
+    add_product.classList.add("hidden");
   });
 
   // handle delete
@@ -164,13 +171,13 @@
       "deleteText"
     ).innerText = `Are you sure you want to delete ${name}`;
     document.getElementById("YesBtn").addEventListener("click", async () => {
-      console.log("yes clicked by id of " + id);
-      // window.location.href = `/deleteCategory/${id}`;
+      // console.log("yes clicked by id of " + id);
+      // window.location.href = `/deleteProduct/${id}`;
       let realId = parseInt(id);
       console.log(typeof realId);
       try {
         let deletePost = await fetch(
-          "http://localhost:3000/deleteCategory" + realId,
+          "http://localhost:3000/deleteProduct" + realId,
           {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
@@ -202,33 +209,37 @@
   }
 
   // handle update
-  function updateCategory(id, name) {
+  function updateProduct(id, name, price, description) {
     // console.log(typeof id);
     let newId = parseInt(id);
-    let catInput = document.getElementById("updateCat");
-    // catInput.value = name;
-    catInput.value = name;
+    let product_name_update = document.getElementById("product_name_update");
+    let product_price_update = document.getElementById("product_price_update");
+    let Product_Description = document.getElementById("Product_Description");
+
+    product_name_update.value = name;
+    product_price_update.value = price;
+    Product_Description.value = description;
     // console.log(catInput);
-    document.getElementById("update_category").classList.remove("hidden");
-    document.getElementById("update_category").classList.add("flex");
+    document.getElementById("update_product").classList.remove("hidden");
+    document.getElementById("update_product").classList.add("flex");
 
     // hide update category form
     document
-      .getElementById("close_Upd_category")
+      .getElementById("close_update_product")
       .addEventListener("click", () => {
-        document.getElementById("update_category").classList.add("hidden");
-        document.getElementById("update_category").classList.remove("flex");
+        document.getElementById("update_product").classList.add("hidden");
+        document.getElementById("update_product").classList.remove("flex");
       });
 
     //form handle
-    let updateCategory = document.getElementById("update_category_form");
+    let update_product_form = document.getElementById("update_product_form");
 
-    updateCategory.addEventListener("submit", async (e) => {
+    update_product_form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const fdata = new FormData(updateCategory);
+      const fdata = new FormData(update_product_form);
       try {
         let request = await fetch(
-          "http://localhost:3000/updateCategory" + newId,
+          "http://localhost:3000/updateProduct" + newId,
           {
             method: "PUT",
             body: fdata,
@@ -240,8 +251,8 @@
 
         if (response.status == 200) {
           // remove update form
-          document.getElementById("update_category").classList.add("hidden");
-          document.getElementById("update_category").classList.remove("flex");
+          document.getElementById("update_product").classList.add("hidden");
+          document.getElementById("update_product").classList.remove("flex");
           //show success alert
           document.getElementById("show_alert").classList.add("flex");
           document.getElementById("show_alert").classList.remove("hidden");

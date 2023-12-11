@@ -12,10 +12,12 @@ const userList = (req, res, next) => {
 };
 // get List of products
 const productList = (req, res, next) => {
-  let productSql = "SELECT * FROM products";
+  let productSql =
+    "SELECT products.id,Product_name,price,cover_Image,catergory_name,type_name,Description FROM products  join catergories on products.category_id = catergories.id join product_types on products.ProductType = product_types.id";
   db.query(productSql, (err, result) => {
     if (err) throw err;
     res.locals.productList = result;
+    // console.log(res.locals.productList);
     next();
   });
 };
