@@ -21,6 +21,14 @@ router.get(
   }
 );
 
+// get all products
+router.get("/api/products", (req, res) => {
+  let sql = "SELECT * FROM products";
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+    res.status(200).send(data);
+  });
+});
 // create new Products
 router.post(
   "/addProduct",

@@ -54,3 +54,63 @@
     </form>
   </div>
 </div>
+
+<script>
+  // handle update
+  function updateCategory(id, name) {
+    // console.log(typeof id);
+    let newId = parseInt(id);
+    let catInput = document.getElementById("updateCat");
+    // catInput.value = name;
+    catInput.value = name;
+    // console.log(catInput);
+    document.getElementById("update_category").classList.remove("hidden");
+    document.getElementById("update_category").classList.add("flex");
+
+    // hide update category form
+    document
+      .getElementById("close_Upd_category")
+      .addEventListener("click", () => {
+        document.getElementById("update_category").classList.add("hidden");
+        document.getElementById("update_category").classList.remove("flex");
+      });
+
+    //form handle
+    let updateCategory = document.getElementById("update_category_form");
+
+    updateCategory.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fdata = new FormData(updateCategory);
+      try {
+        let request = await fetch(
+          "http://localhost:3000/updateCategory" + newId,
+          {
+            method: "PUT",
+            body: fdata,
+          }
+        );
+        let response = await request;
+
+        let data = await response.json();
+
+        if (response.status == 200) {
+          // remove update form
+          document.getElementById("update_category").classList.add("hidden");
+          document.getElementById("update_category").classList.remove("flex");
+          //show success alert
+          document.getElementById("show_alert").classList.add("flex");
+          document.getElementById("show_alert").classList.remove("hidden");
+          document.getElementById("alertText").innerText = data.message;
+
+          setTimeout(() => {
+            document.getElementById("show_alert").classList.remove("flex");
+            document.getElementById("show_alert").classList.add("hidden");
+            window.location.reload();
+          }, 2000);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  }
+</script>

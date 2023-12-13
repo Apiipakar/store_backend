@@ -54,7 +54,8 @@
           <!-- delete all products  -->
           <div class="delete_all_btn">
             <button
-              id="delete_all_category"
+              disabled
+              id="delete_all_Products"
               class="flex items-center gap-2 border border-red-500 px-2 py-1 text-red-500 rounded hover:bg-red-500 ease duration-300 hover:text-white"
             >
               <small>Delete All</small>
@@ -88,8 +89,7 @@
               <td class="py-3 px-2 text-[14px]">icon</td>
               <td class="py-3 px-2 text-[14px]">Product name</td>
               <td class="py-3 px-2 text-[14px]">Price</td>
-              <td class="py-3 px-2 text-[14px]">Category</td>
-              <td class="py-3 px-2 text-[14px]">Type</td>
+              <td class="py-3 px-2 text-[14px]">Information</td>
               <td class="py-3 px-2 text-[14px]">Edit</td>
               <td class="py-3 px-2 text-[14px]">Delete</td>
             </tr>
@@ -97,19 +97,27 @@
           <tbody class="">
             <% productList.forEach(c => { %>
             <tr class="border-b border-slate-200 hover:bg-slate-50">
-              <td class="py-3 px-2 text-[14px]"><%= c.id %></td>
-              <td class="py-3 px-2 text-[14px]">
+              <td class="py-0 px-2 text-[14px]"><%= c.id %></td>
+              <td class="py-0 px-2 text-[14px]">
                 <img
                   src="<%= c.cover_Image %>  %>"
                   alt="icon-image"
                   class="w-[20px] h-[20px] border border-gray-300 shadow"
                 />
               </td>
-              <td class="py-3 px-2 text-[14px]"><%= c.Product_name %></td>
-              <td class="py-3 px-2 text-[14px]">$<%= c.price %></td>
-              <td class="py-3 px-2 text-[14px]"><%= c.catergory_name %></td>
-              <td class="py-3 px-2 text-[14px]"><%= c.type_name %></td>
-              <td class="py-3 px-2 text-[14px]">
+              <td class="py-0 px-2 text-[14px]"><%= c.Product_name %></td>
+              <td class="py-0 px-2 text-[14px]">$<%= c.price %></td>
+              <!-- more info -->
+              <td class="py-0 px-2 text-[14px]">
+                <a href="#">
+                  <ion-icon
+                    name="ellipsis-horizontal-outline"
+                    onclick="showInfo(`<%=c.Product_name%>`,`<%=c.price%>`,`<%=c.Description%>`,`<%=c.cover_Image%>`,`<%=c.image_two%>`)"
+                    class="text-[25px] text-black cursor-pointer group-hover:name-create hover:bg-white ease-in duration-300 p-3 rounded-full"
+                  ></ion-icon>
+                </a>
+              </td>
+              <td class="py-0 px-2 text-[14px]">
                 <a href="#">
                   <ion-icon
                     name="create-outline"
@@ -118,7 +126,7 @@
                   ></ion-icon>
                 </a>
               </td>
-              <td class="py-3 px-2 text-[14px]">
+              <td class="py-0 px-2 text-[14px]">
                 <ion-icon
                   id="deleteCategory"
                   name="trash-outline"
@@ -156,7 +164,6 @@
 <script>
   let locationUrl = document.getElementById("locationUrl");
   let path = window.location.pathname;
-  console.log(locationUrl);
   locationUrl.innerText = path.replace("/", "");
 
   // show add product
@@ -294,4 +301,9 @@
     newWin.document.close();
     newWin.print();
   }
+
+  // handle show info
+  const showInfo = (name, price, description, coverImage, secondImage) => {
+    console.log(name);
+  };
 </script>

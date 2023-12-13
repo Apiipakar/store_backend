@@ -14,6 +14,15 @@ router.get("/Categories", userAuthenication, Data.categoryList, (req, res) => {
   });
 });
 
+// api to get category
+router.get("/api/categories", (req, res) => {
+  let sql = "select * from catergories";
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+    res.status(200).send(data);
+  });
+});
+
 // add category
 router.post("/addCategory", upload.single("image"), (req, res) => {
   let category_name = req.body.category_name;
@@ -29,7 +38,14 @@ router.post("/addCategory", upload.single("image"), (req, res) => {
     }
   });
 });
-
+// delete all data
+router.get("/api/deleteAllCategory", (req, res) => {
+  let sql = "TRUNCATE TABLE catergories";
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.status(200).send({ message: "All Categories Deleted" });
+  });
+});
 //delete category
 router.delete("/deleteCategory:id", (req, res) => {
   let id = req.params.id;
