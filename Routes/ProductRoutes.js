@@ -15,9 +15,56 @@ router.get(
   Data.categoryList,
   Data.prodTypeList,
   (req, res) => {
-    res.render("pages/Products/Products", {
-      Title: "Products",
-    });
+    let queries = req.query;
+    // console.log(queries);
+
+    // if query filter === 'all'
+    if (queries.filter && queries.filter === "All" && queries.search === "") {
+      let sql = `select * from products`;
+      db.query(sql, (err, result) => {
+        if (err) throw err;
+      });
+      res.redirect("/Products");
+    }
+
+    // else if queries.filter found and queries.filter != is not equal to 'all'
+    else if (queries.filter && queries.filter !== "All") {
+      let sql = "select * from products where category_id = ?";
+      db.query(sql, [parseInt(queries.filter)], (err, result) => {
+        if (err) throw err;
+        // console.log(result);
+        // res.locals.productList = result;
+        res.render("pages/Products/Products", {
+          Title: "Products",
+          productList: result,
+        });
+      });
+    }
+    // // else query search and query filter found
+    else if (queries.search) {
+      let sql =
+        "select * from products where Product_name like ? or price like ? or id like ?";
+      db.query(
+        sql,
+        [
+          `%${queries.search}%`,
+          `%${parseInt(queries.search)}%`,
+          `%${parseInt(queries.search)}%`,
+        ],
+        (err, result) => {
+          if (err) throw err;
+          // console.log(result);
+          res.render("pages/Products/Products", {
+            Title: "Products",
+            productList: result,
+          });
+        }
+      );
+    } else {
+      res.render("pages/Products/Products", {
+        Title: "Products",
+      });
+    }
   }
 );
 

@@ -1,4 +1,74 @@
 <div
   id="show_information"
   class="w-full h-screen hidden flex-col z-10 absolute justify-center items-center ease-in duration-150"
-></div>
+>
+  <div class="layer bg-black opacity-20 w-full h-full absolute"></div>
+
+  <!-- main_informaion -->
+  <div
+    class="Main_information w-11/12 md:w-4/5 lg:w-2/3 h-4/5 p-5 bg-white shadow rounded z-10 relative flex flex-col md:flex-row overflow-y-scroll"
+  >
+    <!-- close show information -->
+    <ion-icon
+      id="close_show_information"
+      name="close"
+      class="top-2 right-2 absolute text-[20px] cursor-pointer p-5 rounded-full hover:bg-slate-100 ease-in duration-150"
+    ></ion-icon>
+
+    <!-- =============== Product informations =============== -->
+    <!-- left side -->
+    <div
+      class="left_side_product w-full md:w-1/2 p-5 flex flex-col h-full gap-2"
+    >
+      <!-- cover image -->
+      <div class="cover_image w-full h-4/5 border border-slate-100">
+        <img
+          src=""
+          alt="coverImage"
+          id="coverImageProductInfo"
+          class="w-full h-full"
+        />
+      </div>
+      <!-- other images -->
+      <div class="other_images w-full flex items-center gap-2 h-1/5">
+        <img
+          src=""
+          alt="second image"
+          id="imageTwoInfo"
+          class="h-full w-1/3 border border-slate-100 p-2"
+        />
+        <img
+          src=""
+          alt="Third image"
+          id="imageThreeInfo"
+          class="h-full w-1/3 border border-slate-100 p-2"
+        />
+      </div>
+    </div>
+    <!-- right side -->
+    <div class="Right_side_product w-full md:w-1/2 overflow-scroll">
+      <h1
+        id="Product_nameInfo"
+        class="text-[25px] font-bold border-b border-slate-100 py-2"
+      ></h1>
+      <h1
+        id="ProductPriceInfo"
+        class="font-medium text-[12px] border-b border-slate-100 py-3"
+      ></h1>
+      <div class="description p-0">
+        <h1 class="font-medium text-[13px]">Description</h1>
+        <p id="ProductDescriptionInfo" class="text-[12px] text-slate-500"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let close_show_information = document.getElementById(
+    "close_show_information"
+  );
+  close_show_information.addEventListener("click", () => {
+    document.getElementById("show_information").classList.add("hidden");
+    document.getElementById("show_information").classList.remove("flex");
+  });
+</script>

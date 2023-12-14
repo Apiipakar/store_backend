@@ -8,7 +8,7 @@
 
     <!-- main section -->
     <section
-      class="Dashboard_section w-[98%] m-auto mt-2 overflow-auto h-screen"
+      class="Dashboard_section w-[98%] m-auto mt-2 overflow-x-hidden h-screen"
     >
       <!-- top Title bar -->
       <div class="titleBar flex items-center gap-2 my-5">
@@ -18,6 +18,9 @@
 
       <!-- total section -->
       <%- include('./Components/Totals') %>
+
+      <!-- list last 5 ordered -->
+      <%- include('./components/LastFiveOrdersUser') %>
     </section>
   </main>
 </body>

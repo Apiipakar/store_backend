@@ -12,9 +12,9 @@ const userList = (req, res, next) => {
 };
 // get List of products
 const productList = (req, res, next) => {
-  let productSql = "select * from products";
-  // let productSql =
-  //   "SELECT products.id,Product_name,price,cover_Image,catergory_name,type_name,Description FROM products  join catergories on products.category_id = catergories.id join product_types on products.ProductType = product_types.id";
+  // let productSql = "select * from products";
+  let productSql =
+    "SELECT products.id,Product_name,price,type_name,image_two,cover_Image,catergory_name,type_name,Description FROM products  join catergories on products.category_id = catergories.id join product_types on products.ProductType = product_types.id";
   db.query(productSql, (err, result) => {
     if (err) throw err;
     res.locals.productList = result;
@@ -65,6 +65,15 @@ const prodTypeList = (req, res, next) => {
   });
 };
 
+const LastFiveOrders = (req, res, next) => {
+  let lastOrdersSql =
+    "select product_name,full_name,order_status_name,time,price,cover_Image,phone_number from orders join products on orders.Product_id  = products.id join users on orders.user_id = users.id join order_status on orders.Order_status	= order_status.id order by orders.id desc limit 5";
+  db.query(lastOrdersSql, (err, result) => {
+    if (err) throw err;
+    res.locals.lastOrders = result;
+    next();
+  });
+};
 // ------------------------COUNTS------------------------------------------
 //ordars count
 const ordarsCount = (req, res, next) => {
@@ -117,6 +126,7 @@ module.exports.Data = {
   categoryList,
   commentList,
   prodTypeList,
+  LastFiveOrders,
 
   // count
   userCount,

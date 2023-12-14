@@ -14,6 +14,7 @@ router.get(
   Data.userCount,
   Data.productsCount,
   Data.categoryCount,
+  Data.LastFiveOrders,
   (req, res) => {
     res.render("pages/Dashboard/Dashboard", {
       Title: "Dashboard",

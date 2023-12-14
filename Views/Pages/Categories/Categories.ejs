@@ -39,27 +39,24 @@
             >
           </div>
           <!-- search input -->
-          <div class="search relative md:w-[400px]">
-            <input
-              type="text"
-              class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
-              placeholder="Search Category"
-            />
-            <ion-icon
-              name="search-outline"
-              class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
-            ></ion-icon>
-          </div>
+          <form>
+            <div class="search relative md:w-[400px] flex items-center">
+              <input
+                type="text"
+                class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
+                placeholder="Search Category"
+                name="search"
+              />
+              <button type="submit">
+                <ion-icon
+                  name="search-outline"
+                  class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
+                ></ion-icon>
+              </button>
+            </div>
+          </form>
           <!-- delete all category  -->
-          <div class="delete_all_btn">
-            <button
-              onclick="DeleteAllCategory()"
-              class="flex items-center gap-2 border border-red-500 px-2 py-1 text-red-500 rounded hover:bg-red-500 ease duration-300 hover:text-white"
-            >
-              <small>Delete All</small>
-              <ion-icon name="trash-outline"></ion-icon>
-            </button>
-          </div>
+          <div class="delete_all_btn"></div>
         </div>
         <% } %>
       </div>
@@ -81,7 +78,7 @@
         </div>
         <% } else{%>
         <table id="allData" class="w-full shadow">
-          <thead class="bg-slate-100 font-medium">
+          <thead class="bg-slate-800 text-white font-medium">
             <tr>
               <td class="py-3 px-2 text-[14px]">ID</td>
               <td class="py-3 px-2 text-[14px]">icon</td>
@@ -92,7 +89,7 @@
           </thead>
           <tbody class="">
             <% categoryList.forEach(c => { %>
-            <tr class="border-b border-slate-200 hover:bg-slate-50">
+            <tr class="border-b border-slate-200 hover:bg-slate-100">
               <td class="py-3 px-2 text-[14px]"><%= c.id %></td>
               <td class="py-3 px-2 text-[14px]">
                 <img

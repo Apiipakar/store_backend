@@ -30,10 +30,12 @@ app.use(
 
 // database
 const db = require("./Models/Connections");
-
 // require setuped multer file
 const upload = require("./Models/myMulter");
+
 // declare routes
+
+const api = require("./Routes/Apies");
 const login = require("./Routes/LoginRoutes");
 const dashboard = require("./Routes/DashboardRoutes");
 const category = require("./Routes/CategoryRoutes");
@@ -43,6 +45,7 @@ const setting = require("./Routes/SettingRoutes");
 const users = require("./Routes/UserRoutes");
 
 // use routes
+app.use(api);
 app.use(login);
 app.use(dashboard);
 app.use(category);

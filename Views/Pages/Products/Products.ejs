@@ -39,18 +39,35 @@
               >Print</small
             >
           </div>
-          <!-- search input -->
-          <div class="search relative md:w-[400px]">
-            <input
-              type="text"
-              class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
-              placeholder="Search Products.."
-            />
-            <ion-icon
-              name="search-outline"
-              class="absolute right-2 top-2 cursor-pointer text-slate-500 hover:text-slate-800"
-            ></ion-icon>
-          </div>
+          <form class="flex gap-1 items-center">
+            <select
+              name="filter"
+              class="py-1 px-2 border border-slate-300 outline-none focus:border-slate-400 w-max flex-1"
+            >
+              <option value="All">All Categories</option>
+              <% categoryList.forEach(e => { %>
+
+              <option value="<%= e.id %>"><%=e.catergory_name %></option>
+              <% }); %>
+            </select>
+            <!-- search input -->
+            <div
+              class="search relative md:w-[400px] flex-1 flex flex-col items-center justify-center"
+            >
+              <input
+                type="text"
+                class="px-3 py-1 border border-slate-300 w-full outline-none focus:border-slate-400"
+                placeholder="Search Products.."
+                name="search"
+              />
+            </div>
+            <button
+              type="submit"
+              class="border border-slate-200 px-2 py-1 hover:bg-slate-800 hover:text-white rounded ease-in duration-300"
+            >
+              Search
+            </button>
+          </form>
           <!-- delete all products  -->
           <div class="delete_all_btn">
             <button
@@ -83,20 +100,22 @@
         </div>
         <% } else{%>
         <table id="allData" class="w-full shadow">
-          <thead class="bg-slate-100 font-medium">
+          <thead class="bg-slate-800 text-white font-medium">
             <tr>
-              <td class="py-3 px-2 text-[14px]">ID</td>
-              <td class="py-3 px-2 text-[14px]">icon</td>
-              <td class="py-3 px-2 text-[14px]">Product name</td>
-              <td class="py-3 px-2 text-[14px]">Price</td>
-              <td class="py-3 px-2 text-[14px]">Information</td>
-              <td class="py-3 px-2 text-[14px]">Edit</td>
-              <td class="py-3 px-2 text-[14px]">Delete</td>
+              <td class="py-5 px-2 text-[14px]">ID</td>
+              <td class="py-5 px-2 text-[14px]">icon</td>
+              <td class="py-5 px-2 text-[14px]">Product name</td>
+              <td class="py-5 px-2 text-[14px]">Category</td>
+              <td class="py-5 px-2 text-[14px]">Proudct Type</td>
+              <td class="py-5 px-2 text-[14px]">Price</td>
+              <td class="py-5 px-2 text-[14px]">Information</td>
+              <td class="py-5 px-2 text-[14px]">Edit</td>
+              <td class="py-5 px-2 text-[14px]">Delete</td>
             </tr>
           </thead>
           <tbody class="">
             <% productList.forEach(c => { %>
-            <tr class="border-b border-slate-200 hover:bg-slate-50">
+            <tr class="border-b border-slate-200 hover:bg-slate-100">
               <td class="py-0 px-2 text-[14px]"><%= c.id %></td>
               <td class="py-0 px-2 text-[14px]">
                 <img
@@ -106,6 +125,8 @@
                 />
               </td>
               <td class="py-0 px-2 text-[14px]"><%= c.Product_name %></td>
+              <td class="py-0 px-2 text-[14px]"><%= c.catergory_name %></td>
+              <td class="py-0 px-2 text-[14px]"><%= c.type_name %></td>
               <td class="py-0 px-2 text-[14px]">$<%= c.price %></td>
               <!-- more info -->
               <td class="py-0 px-2 text-[14px]">
@@ -144,11 +165,15 @@
     </section>
   </main>
   <!-- Add product -->
-  <%- include('./components/AddProduct') %> <%-
-  include('./components/UpdateProduct') %>
+  <%- include('./components/AddProduct') %>
+  <!-- Update product -->
+  <%- include('./components/UpdateProduct') %>
+  <!-- Show information -->
+  <%- include('./components/ProcuctInformation') %>
   <!-- show alert -->
-  <%- include('../../partials/Alert') %> <%-
-  include('../../partials/DeleteAlert') %>
+  <%- include('../../partials/Alert') %>
+  <!-- delete alert -->
+  <%- include('../../partials/DeleteAlert') %>
 </body>
 
 <!-- ionIcons link -->
@@ -304,6 +329,18 @@
 
   // handle show info
   const showInfo = (name, price, description, coverImage, secondImage) => {
-    console.log(name);
+    // show productInformation
+    document.getElementById("show_information").classList.remove("hidden");
+    document.getElementById("show_information").classList.add("flex");
+
+    // assign values to arguments values
+    document.getElementById("coverImageProductInfo").src = coverImage;
+    document.getElementById("imageTwoInfo").src = secondImage;
+    document.getElementById("imageThreeInfo").src = secondImage;
+
+    // description and price
+    document.getElementById("Product_nameInfo").innerText = name;
+    document.getElementById("ProductPriceInfo").innerText = `Price $${price}`;
+    document.getElementById("ProductDescriptionInfo").innerText = description;
   };
 </script>

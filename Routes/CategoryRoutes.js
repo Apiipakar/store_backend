@@ -9,9 +9,21 @@ const router = expres.Router();
 
 // get dashboard
 router.get("/Categories", userAuthenication, Data.categoryList, (req, res) => {
-  res.render("pages/Categories/Categories", {
-    Title: "Categories",
-  });
+  let searchQuery = req.query.search;
+
+  if (searchQuery) {
+    let sql = "select * from catergories where catergory_name like ?";
+    db.query(sql, [`%${searchQuery}%`], (err, result) => {
+      res.render("pages/Categories/Categories", {
+        Title: "Categories",
+        categoryList: result,
+      });
+    });
+  } else {
+    res.render("pages/Categories/Categories", {
+      Title: "Categories",
+    });
+  }
 });
 
 // api to get category
