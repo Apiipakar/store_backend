@@ -26,7 +26,7 @@ const productList = (req, res, next) => {
 // get List of orders
 const orderList = (req, res, next) => {
   let orderSql =
-    "SELECT orders.id,users.id as userId,full_name,username,email,phone_number,userProfile,products.id as productId,Product_name,catergory_name,price,cover_Image,time FROM orders join users on orders.user_id = users.id join products on orders.Product_id = products.id join catergories on products.category_id = catergories.id";
+    "SELECT orders.id,users.id as userId,full_name,username,email,phone_number,userProfile,products.id as productId,Product_name,catergory_name,price,cover_Image,time,order_status.Order_status_name as status FROM orders join users on orders.user_id = users.id join products on orders.Product_id = products.id join catergories on products.category_id = catergories.id join order_status on orders.order_status = order_status.id";
   db.query(orderSql, (err, result) => {
     if (err) throw err;
     res.locals.orderList = result;
@@ -65,9 +65,19 @@ const prodTypeList = (req, res, next) => {
   });
 };
 
+// get List of product type
+const orderStaus = (req, res, next) => {
+  let prodTypeSql = "SELECT * FROM order_status";
+  db.query(prodTypeSql, (err, result) => {
+    if (err) throw err;
+    res.locals.AllOrderStatus = result;
+    next();
+  });
+};
+
 const LastFiveOrders = (req, res, next) => {
   let lastOrdersSql =
-    "select product_name,full_name,order_status_name,time,price,cover_Image,phone_number from orders join products on orders.Product_id  = products.id join users on orders.user_id = users.id join order_status on orders.Order_status	= order_status.id order by orders.id desc limit 5";
+    "select orders.id as id , product_name,full_name,order_status_name,time,price,cover_Image,phone_number from orders join products on orders.Product_id  = products.id join users on orders.user_id = users.id join order_status on orders.Order_status	= order_status.id  order by orders.id desc limit 5";
   db.query(lastOrdersSql, (err, result) => {
     if (err) throw err;
     res.locals.lastOrders = result;
@@ -127,6 +137,7 @@ module.exports.Data = {
   commentList,
   prodTypeList,
   LastFiveOrders,
+  orderStaus,
 
   // count
   userCount,

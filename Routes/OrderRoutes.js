@@ -7,9 +7,15 @@ const { Data } = require("../Controllers/Data");
 const router = expres.Router();
 
 // get dashboard
-router.get("/Orders", userAuthenication, Data.orderList, (req, res) => {
-  res.render("pages/Orders/Orders", {
-    Title: "Orders",
-  });
-});
+router.get(
+  "/Orders",
+  userAuthenication,
+  Data.orderList,
+  Data.orderStaus,
+  (req, res) => {
+    res.render("pages/Orders/Orders", {
+      Title: "Orders",
+    });
+  }
+);
 module.exports = router;

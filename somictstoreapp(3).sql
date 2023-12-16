@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2023 at 06:43 PM
+-- Generation Time: Dec 16, 2023 at 10:09 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -90,7 +90,7 @@ CREATE TABLE `comments` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `Product_id` int(11) NOT NULL,
-  `comment` varchar(10000) NOT NULL
+  `comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -116,8 +116,15 @@ CREATE TABLE `orders` (
   `user_id` int(11) NOT NULL,
   `Product_id` int(11) NOT NULL,
   `Time` timestamp NULL DEFAULT current_timestamp(),
-  `Order_status` int(11) NOT NULL
+  `Order_status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `Product_id`, `Time`, `Order_status`) VALUES
+(1, 1, 5, '2023-12-16 07:12:21', 1);
 
 -- --------------------------------------------------------
 
@@ -200,8 +207,15 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `phone_number` int(50) NOT NULL,
   `password` varchar(16) NOT NULL,
-  `userProfile` varchar(500) NOT NULL
+  `userProfile` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `full_name`, `username`, `email`, `phone_number`, `password`, `userProfile`) VALUES
+(1, 'apiipakar mohamoud', 'apiipakar', 'apiipakar2023@gmail.com', 907789485, '112233hh', NULL);
 
 --
 -- Indexes for dumped tables
@@ -219,7 +233,7 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_cart_cart` (`product_id`),
+  ADD KEY `fk_product_id` (`product_id`),
   ADD KEY `fk_user_cart` (`user_id`);
 
 --
@@ -316,7 +330,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `order_status`
@@ -340,7 +354,7 @@ ALTER TABLE `product_types`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -350,8 +364,8 @@ ALTER TABLE `users`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `fk_cart_cart` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION,
-  ADD CONSTRAINT `fk_user_cart` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION;
+  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_cart` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `comments`

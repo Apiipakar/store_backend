@@ -35,7 +35,9 @@
             <td class="py-3 px-2 text-[14px]">Ordered user</td>
             <td class="py-3 px-2 text-[14px]">category</td>
             <td class="py-3 px-2 text-[14px]">time Ordered</td>
-            <td class="py-3 px-2 text-[14px]">Accept</td>
+            <td class="py-3 px-2 text-[14px]">Status</td>
+            <td class="py-3 px-2 text-[14px]">Change status</td>
+            <td class="py-3 px-2 text-[14px]">Delete</td>
             <td class="py-3 px-2 text-[14px]">More</td>
           </tr>
         </thead>
@@ -53,23 +55,45 @@
             <td class="py-3 px-2 text-[14px]"><%= c.Product_name %></td>
             <td class="py-3 px-2 text-[14px]">$<%= c.price %></td>
             <td class="py-3 px-2 text-[14px]"><%= c.full_name %></td>
-            <td class="py-3 px-2 text-[14px]"><%= c.category_name %></td>
-            <td class="py-3 px-2 text-[14px]"><%= c.time %></td>
+            <td class="py-3 px-2 text-[14px]"><%= c.catergory_name %></td>
             <td class="py-3 px-2 text-[14px]">
-              <a href="#">
-                <ion-icon
-                  name="swap-vertical-outline"
-                  onclick="accept(`<%=c.id%>`,`<%=c.full_name%>`)"
-                  class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
-                ></ion-icon>
-              </a>
-              <a href="#">
-                <ion-icon
-                  name="list-outline"
-                  onclick="MoreInfo(`<%=c.id%>`)"
-                  class="text-[18px] text-green-800 cursor-pointer group-hover:name-create"
-                ></ion-icon>
-              </a>
+              <%= c.time.toLocaleDateString('en-US', { month: '2-digit', day:
+              '2-digit', year: 'numeric',hour:'numeric' }); %>
+            </td>
+            <td class="py-3 px-2 text-[14px] flex items-center gap-1">
+              <%= c.status %>
+            </td>
+
+            <td>
+              <form class="flex items-center gap-3">
+                <select
+                  name="order_status"
+                  class="border border-slate-100 py-1 px-1 outline-none hover:border-slate-200"
+                >
+                  <option value="">Select Status</option>
+                  <%AllOrderStatus.forEach(e=>{ %>
+                  <option value="<%=e.id%>"><%=e.Order_status_name %></option>
+                  <% }) %>
+                </select>
+                <button
+                  class="text-12 border border-slate-100 p-1 capitalize hover:bg-slate-800 hover:text-white ease-in duration-150 rounded"
+                >
+                  change
+                </button>
+              </form>
+            </td>
+
+            <td class="py-3 px-2 text-[14px]">
+              <ion-icon
+                name="trash"
+                class="text-red-600 text-[18px] cursor-pointer"
+              ></ion-icon>
+            </td>
+            <td class="py-3 px-2 text-[14px]">
+              <ion-icon
+                name="ellipsis-horizontal"
+                class="text-gray-500 cursor-pointer"
+              ></ion-icon>
             </td>
           </tr>
           <% }); %>

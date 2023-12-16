@@ -28,30 +28,31 @@
     >
       See More</a
     >
-    <table id="allData" class="w-full p-3">
+    <table id="allData" class="w-full py-5 my-2">
       <thead class="bg-slate-100 text-slate-600 font-medium">
         <tr>
           <td class="p-2 px-2 text-[13px]">Image</td>
           <td class="p-2 px-2 text-[13px]">ID</td>
           <td class="p-2 px-2 text-[13px]">Product name</td>
           <td class="p-2 px-2 text-[13px]">Ordered_user</td>
+          <td class="p-2 px-2 text-[13px]">User phone</td>
           <td class="p-2 px-2 text-[13px]">Price</td>
         </tr>
       </thead>
       <tbody class="">
         <% lastOrders.forEach(c => { %>
-        <tr class="border-b border-slate-200 hover:bg-slate-100">
-          <td class="py-0 px-2 text-[14px]"><%= c.id %></td>
+        <tr class="border-b border-slate-200 hover:bg-slate-50">
           <td class="py-0 px-2 text-[14px]">
             <img
               src="<%= c.cover_Image %>  %>"
               alt="icon-image"
-              class="w-[20px] h-[20px] border border-gray-300 shadow"
+              class="w-[30px] h-[30px] border border-gray-300 shadow"
             />
           </td>
-          <td class="py-0 px-2 text-[14px]"><%= c.Product_name %></td>
-          <td class="py-0 px-2 text-[14px]"><%= c.catergory_name %></td>
-          <td class="py-0 px-2 text-[14px]"><%= c.type_name %></td>
+          <td class="py-0 px-2 text-[14px]"><%= c.id %></td>
+          <td class="py-0 px-2 text-[14px]"><%= c.product_name %></td>
+          <td class="py-0 px-2 text-[14px]"><%= c.full_name %></td>
+          <td class="py-0 px-2 text-[14px]"><%= c.phone_number %></td>
           <td class="py-0 px-2 text-[14px]">$<%= c.price %></td>
         </tr>
         <% }); %>
